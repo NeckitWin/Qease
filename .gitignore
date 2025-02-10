@@ -1,0 +1,10 @@
+# modules
+Server/node_modules
+Client/node_modules
+
+# db
+Server/prisma/dev.db
+Server/prisma/dev.db-journal
+
+# env
+Server/.env
