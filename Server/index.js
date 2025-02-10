@@ -1,32 +1,31 @@
-const express = require("express");
-const { PrismaClient } = require("@prisma/client");
-const cors = require("cors");
-const userReposytory = require("./database/repository/userReposytory");
+import express from "express";
+import cors from "cors";
+import userRepository from "./database/repository/userReposytory.js";
 
-const prisma = new PrismaClient();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/users", async (req, res) => {
-    const user = {
-        username: req.query.username,
-        password: req.query.password
-    }
-    const users = await userReposytory.getUser( user );
-    res.json(users);
+app.post("/login", async (req, res) => {
+    const user = req.body;
+    const {password} = user;
+    const loginUser = await userRepository.getUser(user);
+    if (!loginUser) return res.json({error: "Użytkownik nie istnieje"});
+    if (loginUser.password !== password) return res.json({error: "Nieprawidłowe hasło"});
+    res.json({data: loginUser.username});
 });
 
-app.post("/users", async (req, res) => {
-    const user = {
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
+app.post("/register", async (req, res) => {
+    const user = req.body;
+    const getUser = await userRepository.getUser(user);
+    if (getUser) {
+        return res.json({error: "Użytkownik już istnieje"});
     }
-    const users = await userReposytory.postUser( user );
-    res.json(users);
+    const newUser = await userRepository.postUser(user);
+    res.json({data: newUser.username});
+
 });
 
 app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+    console.log("Serwer wystartował na porcie 3000");
 });

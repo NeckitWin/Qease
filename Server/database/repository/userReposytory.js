@@ -12,10 +12,8 @@ const userRepository = {
         });
     },
     async postUser(user) {
-        return prisma.user.upsert({
-            where: { username: user.username },
-            update: { user: user },
-            create: user
+        return prisma.user.create({
+            data: user
         });
     }
 }
