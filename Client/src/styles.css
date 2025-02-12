@@ -4,3 +4,9 @@
 * {
   font-family: "Roboto", serif;
 }
+@theme {
+  --color-back: #141619;
+  --color-bgColor: #1d1f22;
+  --color-bgAccent: #5363e1;
+  --color-textColor: #B3B4BD;
+}

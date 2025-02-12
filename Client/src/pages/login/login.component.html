@@ -1,69 +1,81 @@
-<div class="flex flex-col md:flex-row">
-  <section class="md:w-1/2">
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0  md:h-screen">
-      <h3 class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-        Zaloguj się
-      </h3>
-      <div class="w-full bg-amber-900 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 shadow-2xl">
-        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Zaloguj się na swoje konto
-          </h1>
-          <form class="space-y-4 md:space-y-6" action="#">
-            <div>
-              <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twój login</label>
-              <input type="text" name="login" id="login" class="bg-amber-600 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
-            </div>
-            <div>
-              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hasło</label>
-              <input type="password" name="password" id="password" placeholder="••••••••" class="bg-amber-600 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-            </div>
-            <div class="flex items-center justify-between">
-              <a href="#" class="text-sm font-medium text-white hover:underline">Nie pamiętam hasła</a>
-            </div>
-            <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 hover:bg-amber-700 duration-200 cursor-pointer">
-              Zaloguj się
-            </button>
-          </form>
-        </div>
+<section class="py-32 flex justify-center">
+  <div class="flex flex-col md:flex-row justify-center bg-bgColor rounded-3xl">
+    <div class="md:mt-0 xl:p-0 md:w-1/2">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h2 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+          Zaloguj się na swoje konto
+        </h2>
+        <form class="space-y-4 md:space-y-6" [formGroup]="loginForm" (ngSubmit)="login()">
+          <div>
+            <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twój login</label>
+            <input type="text" name="login" id="login" formControlName="username"
+                   class="bg-textColor border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                   placeholder="username">
+          </div>
+          <div>
+            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hasło</label>
+            <input type="password" name="password" id="password" placeholder="••••••••" formControlName="password"
+                   class="bg-textColor border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          </div>
+          <div *ngIf="errorLogin" class="flex items-center justify-between text-red-400">
+            {{ errorLogin }}
+          </div>
+          <button type="submit"
+                  class="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-bgAccent border hover:border-transparent duration-200 cursor-pointer">
+            Zaloguj się
+          </button>
+        </form>
       </div>
     </div>
-  </section>
-
-  <section class="md:w-1/2">
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0  md:h-screen">
-      <h3 class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-        Załóż konto
-      </h3>
-      <div class="w-full bg-amber-900 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 shadow-2xl">
-        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Stwórz nowe konto
-          </h1>
-          <form class="space-y-4 md:space-y-6" action="#">
-            <div>
-              <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Podaj username (login)</label>
-              <input type="text" name="username" id="username" class="bg-amber-600 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="User123" required="">
-            </div>
-            <div>
-              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Wprowadź mail</label>
-              <input type="email" name="email" id="email" class="bg-amber-600 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
-            </div>
-            <div>
-              <label for="firstPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hasło</label>
-              <input type="password" name="firstPassword" id="firstPassword" placeholder="••••••••" class="bg-amber-600 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-            </div>
-            <div>
-              <label for="secondPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Powtórz hasło</label>
-              <input type="password" name="secondPassword" id="secondPassword" placeholder="••••••••" class="bg-amber-600 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-            </div>
-            <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 hover:bg-amber-700 duration-200 cursor-pointer">
-              Zarejestruj się
-            </button>
-          </form>
-        </div>
+    <div class="md:mt-0 xl:p-0 md:w-1/2">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h2 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+          Stwórz nowe konto
+        </h2>
+        <form class="space-y-4 md:space-y-6" [formGroup]="registerForm" (ngSubmit)="register()">
+          <div>
+            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Podaj username
+              (login)</label>
+            <input formControlName="username" type="text" name="username" id="username"
+                   class="bg-textColor border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                   placeholder="username">
+          </div>
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Wprowadź
+              mail</label>
+            <input type="email" name="email" id="email" formControlName="email"
+                   class="bg-textColor border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                   placeholder="name@company.com">
+          </div>
+          <div>
+            <label for="firstPassword"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hasło</label>
+            <input type="password" name="firstPassword" id="firstPassword" placeholder="••••••••"
+                   formControlName="firstPassword"
+                   class="bg-textColor border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          </div>
+          <div>
+            <label for="secondPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Powtórz
+              hasło</label>
+            <input type="password" name="secondPassword" id="secondPassword" placeholder="••••••••"
+                   formControlName="secondPassword"
+                   class="bg-textColor border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          </div>
+          <label class="inline-flex items-center mb-5 cursor-pointer">
+            <input type="checkbox" value="" class="sr-only peer" formControlName="acceptTerms">
+            <div
+              class="relative w-11 h-6 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-800 rounded-full peer bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all border-gray-600 peer-checked:bg-amber-600"></div>
+            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Nie odpowiadamy za Twoje bezpieczeństwo danych</span>
+          </label>
+          <div *ngIf="errorRegister" class="flex items-center justify-between text-red-400">
+            {{ errorRegister }}
+          </div>
+          <button type="submit"
+                  class="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-bgAccent border hover:border-transparent duration-200 cursor-pointer">
+            Zarejestruj się
+          </button>
+        </form>
       </div>
     </div>
-  </section>
-
-</div>
+  </div>
+</section>
