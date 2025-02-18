@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({origin: true, credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
 const secretKey = process.env.SECRET_KEY;
@@ -32,9 +32,7 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
     const user = req.body;
     const getUser = await userRepository.getUser(user);
-    if (getUser) {
-        return res.json({error: "Użytkownik już istnieje"});
-    }
+    if (getUser) return res.json({error: "Użytkownik już istnieje"});
     const newUser = await userRepository.postUser(user);
     const token = jwt.sign({username: newUser.username}, secretKey, {expiresIn: "1h"});
 
@@ -43,8 +41,16 @@ app.post("/register", async (req, res) => {
         sameSite: "Strict",
         maxAge: 3600000
     });
-
     res.json({message: 'Udane zarejestrowanie!'});
+});
+
+app.get("/get-cookie", (req, res) => {
+    const token = req.cookies.authToken;
+    if (!token) return res.json({error: "Brak tokena"});
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) return res.json({error: "Błąd weryfikacji"});
+        res.json({username: decoded.username});
+    });
 });
 
 app.listen(3000, () => {

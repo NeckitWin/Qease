@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgIf} from '@angular/common';
+import {Router} from '@angular/router';
 
 const apiUrl: string = 'http://localhost:3000';
 
 interface apiData {
-  data: string;
+  message: string;
   error?: string;
 }
 
@@ -25,22 +26,37 @@ export class LoginComponent {
   loginForm: FormGroup;
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.loginForm = this.fb.group({
-      username: [''],
-      password: ['']
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
 
     this.registerForm = this.fb.group({
-      username: [''],
-      firstPassword: [''],
-      secondPassword: [''],
-      email: [''],
-      acceptTerms: ['']
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      firstPassword: ['', [Validators.required, Validators.minLength(8)]],
+      secondPassword: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['', [Validators.required, Validators.email]],
+      acceptTerms: [false, [Validators.requiredTrue]]
     });
   }
 
   login() {
+      if (!this.loginForm.controls['username'].value && !this.loginForm.controls['password'].value) {
+        this.errorLogin = 'Wypełnij wszystkie pola';
+        return;
+      }
+
+      if (this.loginForm.controls['username'].errors) {
+        this.errorLogin = 'Nazwa użytkownika musi mieć co najmniej 3 znaki';
+        return;
+      }
+
+      if (this.loginForm.controls['password'].errors) {
+        this.errorLogin = 'Hasło musi mieć co najmniej 8 znaków';
+        return;
+      }
+
     if (this.loginForm.valid) {
       const {username, password} = this.loginForm.value;
       if (!username || !password) {
@@ -51,8 +67,8 @@ export class LoginComponent {
       this.http.post<apiData>(`${apiUrl}/login`, loginUser).subscribe((response) => {
         if (response.error) {
           this.errorLogin = response.error;
-        } else if (response.data) {
-          this.errorLogin = 'Witaj ' + response.data;
+        } else {
+          this.router.navigate(['']);
         }
       });
     }
@@ -73,8 +89,8 @@ export class LoginComponent {
       this.http.post<apiData>(`${apiUrl}/register`, registerUser).subscribe((response) => {
         if (response.error) {
           this.errorRegister = response.error;
-        } else if (response.data) {
-          this.errorRegister = 'Witaj ' + response.data;
+        } else {
+          this.router.navigate(['']);
         }
       });
     }

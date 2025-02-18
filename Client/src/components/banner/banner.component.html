@@ -1,0 +1,30 @@
+<section class="relative w-full mt-4 md:mb-0 hidden md:block">
+  <div class="flex space-x-2 rtl:space-x-reverse rounded-none">
+
+    <div class="flex-none">
+      <div class="h-full max-sm:w-8 w-[10px] flex justify-between flex-col gap-y-2">
+        <span
+          *ngFor="let banner of banners; let i = index"
+          (click)="selectBanner(i)"
+          class="rounded-lg bg-bgAccent cursor-pointer w-[10px] duration-200"
+          [ngClass]="{
+            'h-full opacity-100': activeBanner === i,
+            'h-2/5 opacity-50': activeBanner !== i
+          }"
+        ></span>
+      </div>
+    </div>
+
+    <div class="grow overflow-hidden rounded-2xl">
+      <div class="relative w-full h-[400px]">
+        <div
+          *ngFor="let banner of banners; let i = index"
+          class="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
+          [ngClass]="{'opacity-100': activeBanner === i, 'opacity-0': activeBanner !== i}"
+        >
+          <img [src]="banner" class="w-full h-full object-cover" [alt]="'banner-' + i"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
