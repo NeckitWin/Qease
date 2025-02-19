@@ -7,7 +7,7 @@
       </a>
       <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <a routerLink="login"
-           class="text-white bg-bgAccent hover:bg-bgAccent/80 duration-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
+           class="text-white bg-accent hover:bg-accent/80 duration-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
           Zaloguj się
         </a>
         <button data-collapse-toggle="navbar-sticky" type="button"
@@ -25,9 +25,9 @@
         <ul
           class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
           <li *ngFor="let link of navLinks">
-            <a [routerLink]="link.path" routerLinkActive="md:text-bgAccent"
+            <a [routerLink]="link.path" routerLinkActive="md:text-accent"
                [routerLinkActiveOptions]="{ exact: true }"
-               class="block py-2 px-3 text-textColor rounded-sm duration-200 md:bg-transparent md:p-0 hover:text-bgAccent">
+               class="block py-2 px-3 text-textColor rounded-sm duration-200 md:bg-transparent md:p-0 hover:text-accent">
               {{ link.label }}
             </a>
           </li>

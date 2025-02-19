@@ -1,0 +1,16 @@
+<div class="mb-16">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-white text-center text-4xl font-extrabold">Nasz Zespół</h2>
+
+    <div class="flex gap-2 md:gap-8 max-sm:justify-between mt-12 max-sm:px-2">
+      <div *ngFor="let member of team" class="bg-bgColor p-4 rounded-lg">
+        <img [src]="'/team'+member.image" class="w-full object-contain object-top rounded-lg"/>
+
+        <div class="text-center mt-4">
+          <h4 class="text-[10px] md:text-base font-semibold text-white">{{member.position}}</h4>
+          <p class="text-[9px] md:text-xs mt-2 text-white">{{member.name}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
