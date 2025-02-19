@@ -64,7 +64,7 @@ export class LoginComponent {
         return;
       }
       const loginUser = {username, password};
-      this.http.post<apiData>(`${apiUrl}/login`, loginUser).subscribe((response) => {
+      this.http.post<apiData>(`${apiUrl}/login`, loginUser, {withCredentials: true}).subscribe((response) => {
         if (response.error) {
           this.errorLogin = response.error;
         } else {
@@ -86,7 +86,7 @@ export class LoginComponent {
         return;
       }
       const registerUser = {username, password: firstPassword, email};
-      this.http.post<apiData>(`${apiUrl}/register`, registerUser).subscribe((response) => {
+      this.http.post<apiData>(`${apiUrl}/register`, registerUser, {withCredentials: true}).subscribe((response) => {
         if (response.error) {
           this.errorRegister = response.error;
         } else {
