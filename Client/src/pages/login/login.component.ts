@@ -42,20 +42,20 @@ export class LoginComponent {
   }
 
   login() {
-      if (!this.loginForm.controls['username'].value && !this.loginForm.controls['password'].value) {
-        this.errorLogin = 'Wypełnij wszystkie pola';
-        return;
-      }
+    if (!this.loginForm.controls['username'].value && !this.loginForm.controls['password'].value) {
+      this.errorLogin = 'Wypełnij wszystkie pola';
+      return;
+    }
 
-      if (this.loginForm.controls['username'].errors) {
-        this.errorLogin = 'Nazwa użytkownika musi mieć co najmniej 3 znaki';
-        return;
-      }
+    if (this.loginForm.controls['username'].errors) {
+      this.errorLogin = 'Nazwa użytkownika musi mieć co najmniej 3 znaki';
+      return;
+    }
 
-      if (this.loginForm.controls['password'].errors) {
-        this.errorLogin = 'Hasło musi mieć co najmniej 8 znaków';
-        return;
-      }
+    if (this.loginForm.controls['password'].errors) {
+      this.errorLogin = 'Hasło musi mieć co najmniej 8 znaków';
+      return;
+    }
 
     if (this.loginForm.valid) {
       const {username, password} = this.loginForm.value;

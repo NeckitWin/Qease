@@ -17,7 +17,7 @@ app.use(session({
 
 app.post("/login", async (req, res) => {
     const user = req.body;
-    const {username, password} = user;
+    const {password} = user;
     const loginUser = await userRepository.getUser(user);
     if (!loginUser) return res.json({error: "Użytkownik nie istnieje"});
     if (loginUser.password !== password) return res.json({error: "Nieprawidłowe hasło"});
