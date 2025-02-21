@@ -38,7 +38,9 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const {username, password} = this.loginForm.value;
       this.authService.login(username, password);
-      this.errorLogin = this.authService.errorMessage;
+      this.authService.error$.subscribe((error) => {
+        this.errorLogin = error;
+      });
     }
   }
 
@@ -46,7 +48,9 @@ export class LoginComponent {
     if (this.registerForm.valid) {
       const {username, firstPassword, secondPassword, email, acceptTerms} = this.registerForm.value;
       this.authService.register(username, firstPassword, secondPassword, email, acceptTerms);
-      this.errorRegister = this.authService.errorMessage;
+      this.authService.error$.subscribe((error) => {
+        this.errorRegister = error;
+      });
     }
   }
 }

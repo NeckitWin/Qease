@@ -15,6 +15,7 @@ interface User {
   templateUrl: './header.component.html',
   standalone: true
 })
+
 export class HeaderComponent {
   visible: boolean = false;
   user: User | undefined;
@@ -27,6 +28,7 @@ export class HeaderComponent {
   changeVisibility() {
     this.visible = !this.visible;
   }
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (!this.visible) return;
@@ -37,11 +39,14 @@ export class HeaderComponent {
 
   constructor(private authService: AuthService) {
     this.authService.me()
-    this.user = this.authService.user;
+    this.authService.user$.subscribe((user) => {
+      this.user = user;
+    });
+    console.log(this.user);
   }
 
   logout() {
     this.authService.logout();
-    this.user = this.authService.user
+    this.user = undefined;
   }
 }

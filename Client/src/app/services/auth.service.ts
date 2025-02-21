@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {BehaviorSubject} from 'rxjs';
 
 const apiUrl: string = 'http://localhost:3000';
 
@@ -25,36 +26,26 @@ interface apiUser {
   providedIn: 'root'
 })
 export class AuthService {
-  get user(): User | undefined {
-    return this._user;
-  }
 
-  set user(value: User | undefined) {
-    this._user = value;
-  }
-  get errorMessage(): string {
-    return this._errorMessage;
-  }
-
-  set errorMessage(value: string) {
-    this._errorMessage = value;
-  }
-  private _errorMessage: string = '';
-  private _user: User | undefined;
+  private userSubject = new BehaviorSubject(<User | undefined>(undefined));
+  user$ = this.userSubject.asObservable();
+  private errorSubject = new BehaviorSubject<string>('');
+  error$ = this.errorSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
   }
 
   login(username: string, password: string) {
     if (!username || !password) {
-      this.errorMessage = 'Wypełnij wszystkie pola';
+      this.errorSubject.next('Wypełnij wszystkie pola');
       return;
     }
     const loginUser = {username, password};
     this.http.post<apiUser>(`${apiUrl}/login`, loginUser, {withCredentials: true}).subscribe((response) => {
       if (response.error) {
-        this.errorMessage = response.error;
+        this.errorSubject.next(response.error);
       } else {
+        this.me();
         this.router.navigate(['']);
       }
     });
@@ -62,18 +53,19 @@ export class AuthService {
 
   register(username: string, firstPassword: string, secondPassword: string, email: string, acceptTerms: boolean) {
       if (!(username && firstPassword && secondPassword && email && acceptTerms)) {
-        this.errorMessage = 'Wypełnij wszystkie pola';
+        this.errorSubject.next('Wypełnij wszystkie pola');
         return;
       }
       if (firstPassword !== secondPassword) {
-        this.errorMessage = 'Hasła nie są takie same';
+        this.errorSubject.next('Hasła nie są takie same');
         return;
       }
       const registerUser = {username, password: firstPassword, email};
       this.http.post<apiData>(`${apiUrl}/register`, registerUser, {withCredentials: true}).subscribe((response) => {
         if (response.error) {
-          this.errorMessage = response.error;
+          this.errorSubject.next(response.error);
         } else {
+          this.me();
           this.router.navigate(['']);
         }
       });
@@ -82,8 +74,7 @@ export class AuthService {
   me() {
     this.http.get<apiUser>(`${apiUrl}/me`, { withCredentials: true }).subscribe((res) => {
       if (res) {
-        this.user = res.user;
-        console.log(this.user);
+        this.userSubject.next(res.user);
       }
     });
   }
@@ -93,7 +84,7 @@ export class AuthService {
       if (res.error) {
         console.error(res.error);
       } else {
-        this.user = undefined;
+        this.userSubject.next(undefined);
         this.router.navigate(['']);
       }
     });
