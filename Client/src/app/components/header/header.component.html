@@ -6,7 +6,7 @@
         <span class="self-center text-2xl text-textColor font-semibold whitespace-nowrap">Qease</span>
       </a>
       <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-        <a *ngIf="!button;else profileButton" routerLink="login"
+        <a *ngIf="!user;else profileButton" routerLink="login"
            class="text-white bg-accent hover:bg-accent/80 duration-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
           Zaloguj się
         </a>

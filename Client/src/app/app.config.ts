@@ -11,5 +11,3 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient()
   ],
 };
-
-export const apiUrl = 'http://localhost:3000';
