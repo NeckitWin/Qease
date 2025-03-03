@@ -31,6 +31,8 @@ app.post("/register", async (req, res) => {
     const getUser = await userRepository.getUser(user);
     if (getUser) return res.json({error: "Użytkownik już istnieje"});
     await userRepository.postUser(user);
+    req.session.user = user;
+    res.json({message: "Zarejestrowano"});
 });
 
 app.get("/me", async (req, res) => {
